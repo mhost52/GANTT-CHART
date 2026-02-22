@@ -1,7 +1,7 @@
 widyo - TLM, jadwal lembur jaga, wawan, codeigniter, api, form, isp
 		, pengetatan komputer 
-jali - api, mapping api untuk report
-star - bc, mapping api untuk report
+jali - api, mapping api untuk report, identifikasi report datang dari form apa
+star - bc, mapping api untuk report, identifikasi report datang dari form apa
 budi - api, form
 baim - api, form
 tano - puzzle
