@@ -1,7 +1,12 @@
-widyo - TLM, jadwal lembur jaga, wawan, codeigniter, api, form
-jali - api
-star - bc
+widyo - TLM, jadwal lembur jaga, wawan, codeigniter, api, form, isp
+		, pengetatan komputer 
+jali - api, mapping report
+star - bc, mapping report
 budi - api, form
 baim - api, form
 tano - puzzle
 
+update to report
+-PENGUBAHAN FORM INVOICE SAP sudah(nm kemasan dan jml kemasan)
+-ada tambahan api transaksi warehouse untuk dimasukkan ke program ricef sap
+-ada request pengubahan satuan dari BC
