@@ -7,8 +7,13 @@ baim - api, form
 tano - puzzle
 reyhan - bikin dokumentasi SAP EAM
 
+note:
+-tanya spec Wawan
+
 update to report
 -PENGUBAHAN FORM INVOICE SAP sudah(nm kemasan dan jml kemasan)
 -ada tambahan api transaksi warehouse untuk dimasukkan ke program ricef sap
 -ada request pengubahan satuan dari BC
+
+update to report next
 
