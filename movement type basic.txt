@@ -1,0 +1,33 @@
+
+| Kode | Deskripsi |
+|------|------------|
+| 101  | Goods receipt untuk purchase order atau order |
+| 102  | Cancellation dari 101 |
+| 103  | Goods receipt ke GR blocked stock |
+| 105  | Release dari GR blocked stock |
+| 201  | Goods issue untuk cost center |
+| 221  | Goods issue untuk project |
+| 261  | Goods issue untuk production order |
+| 301  | Transfer posting plant ke plant (1 step) |
+| 303  | Transfer posting plant ke plant (stock in transit) |
+| 305  | Transfer posting plant ke plant (2 step) |
+| 311  | Transfer posting storage location ke storage location (1 step) |
+| 313  | Transfer posting storage location ke storage location (stock in transit) |
+| 315  | Transfer posting storage location ke storage location (2 step) |
+| 321  | Transfer posting quality inspection ke unrestricted use |
+| 322  | Transfer posting unrestricted use ke quality inspection |
+| 331  | Goods issue untuk sample |
+| 501  | Goods receipt tanpa purchase order |
+| 511  | Goods receipt untuk by-product |
+| 541  | Transfer posting ke subcontractor |
+| 543  | Goods issue ke subcontractor |
+| 551  | Goods issue untuk scrap |
+| 561  | Goods receipt untuk initial stock entry |
+| 701  | Inventory differences (goods receipt) |
+| 702  | Inventory differences (goods issue) |
+| 711  | Inventory differences untuk storage location (goods receipt) |
+| 712  | Inventory differences untuk storage location (goods issue) |
+| 731  | Transfer posting konsinyasi ke unrestricted use |
+| 733  | Transfer posting unrestricted use ke konsinyasi |
+| 801  | Goods receipt untuk customer returns |
+| 861  | Goods receipt untuk stock transport order (STO) |
