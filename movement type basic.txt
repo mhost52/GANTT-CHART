@@ -31,3 +31,27 @@
 | 733  | Transfer posting unrestricted use ke konsinyasi |
 | 801  | Goods receipt untuk customer returns |
 | 861  | Goods receipt untuk stock transport order (STO) |
+
+----------------------------------------------------------------------------------------
+
+Daftar Movement Type untuk Cancellation
+| Movement Type Asli | Deskripsi | Movement Type Cancel | Catatan |
+|--------------------|-----------|----------------------|---------|
+| **101** | Goods Receipt untuk Purchase Order | **102** | Membatalkan GR (PO) |
+| **103** | GR ke GR Blocked Stock | **104** | Membatalkan GR ke GR Blocked |
+| **105** | Release dari GR Blocked Stock | **106** | Membatalkan release |
+| **201** | GI ke Cost Center | **202** | Membatalkan GI ke Cost Center |
+| **221** | GI ke Project | **222** | Membatalkan GI ke Project |
+| **261** | GI ke Production Order | **262** | Membatalkan GI ke Production Order |
+| **301** | Transfer Plant ke Plant (1 step) | **302** | Membatalkan transfer |
+| **303** | Transfer Plant ke Plant (stock in transit) | **304** | Membatalkan transfer |
+| **305** | Transfer Plant ke Plant (2 step) | **306** | Membatalkan transfer |
+| **311** | Transfer antar Storage Location | **312** | Membatalkan transfer |
+| **321** | Transfer dari Quality ke Unrestricted | **322** | Membatalkan transfer |
+| **501** | GR tanpa PO | **502** | Membatalkan GR tanpa PO |
+| **541** | Transfer ke Subcontractor | **542** | Membatalkan transfer ke vendor |
+| **543** | GI ke Subcontractor | **544** | Membatalkan GI ke Subcontractor |
+| **551** | GI untuk Scrap | **552** | Membatalkan GI Scrap |
+| **561** | Initial Stock Entry | **562** | Membatalkan stok awal |
+| **701** | Inventory Difference (GR) | **702** | Inventory Difference (GI) – pembatalan |
+| **711** | Inventory Difference (GR – storage location) | **712** | Inventory Difference (GI – storage location) |
