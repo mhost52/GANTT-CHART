@@ -1,0 +1,67 @@
+Baik, Billy. Berikut contoh soal dan jawaban untuk **tes programmer CodeIgniter dan PostgreSQL**. Saya buat dalam format pilihan ganda agar mudah dipakai sebagai ujian:
+
+---
+
+## 🖥️ Bagian CodeIgniter
+**1. Dalam CodeIgniter, file konfigurasi database biasanya berada di folder mana?**  
+A. `application/config/database.php`  
+B. `system/core/database.php`  
+C. `application/controllers/database.php`  
+D. `application/models/database.php`  
+**Jawaban:** A  
+
+**2. Fungsi `base_url()` di CodeIgniter digunakan untuk…**  
+A. Mengambil URL controller saat ini  
+B. Menghasilkan URL dasar aplikasi sesuai konfigurasi  
+C. Menyimpan data ke database  
+D. Membuat session baru  
+**Jawaban:** B  
+
+**3. Pada CodeIgniter, bagaimana cara memuat model bernama `User_model` di dalam controller?**  
+A. `$this->load->helper('User_model');`  
+B. `$this->load->library('User_model');`  
+C. `$this->load->model('User_model');`  
+D. `$this->User_model->load();`  
+**Jawaban:** C  
+
+**4. Apa fungsi dari `form_validation` library di CodeIgniter?**  
+A. Membuat query database otomatis  
+B. Memvalidasi input form sesuai aturan yang ditentukan  
+C. Mengatur session user  
+D. Mengelola routing URL  
+**Jawaban:** B  
+
+---
+
+## 🗄️ Bagian PostgreSQL
+**5. Perintah SQL untuk menampilkan semua tabel dalam sebuah schema adalah…**  
+A. `SHOW TABLES;`  
+B. `\dt`  
+C. `LIST TABLES;`  
+D. `SELECT * FROM tables;`  
+**Jawaban:** B (digunakan di psql CLI)  
+
+**6. Tipe data yang digunakan PostgreSQL untuk menyimpan JSON adalah…**  
+A. `TEXT`  
+B. `VARCHAR`  
+C. `JSON` atau `JSONB`  
+D. `ARRAY`  
+**Jawaban:** C  
+
+**7. Apa fungsi dari `PRIMARY KEY` pada tabel PostgreSQL?**  
+A. Menentukan kolom yang boleh null  
+B. Menentukan kolom unik dan menjadi identitas baris  
+C. Membatasi jumlah baris dalam tabel  
+D. Menentukan default value kolom  
+**Jawaban:** B  
+
+**8. Perintah untuk membuat index pada kolom `email` di tabel `users` adalah…**  
+A. `CREATE INDEX users_email ON users(email);`  
+B. `CREATE INDEX email ON users;`  
+C. `ADD INDEX email TO users;`  
+D. `ALTER TABLE users ADD INDEX email;`  
+**Jawaban:** A  
+
+---
+
+Apakah kamu ingin saya kembangkan soal ini menjadi **paket lengkap (misalnya 20–30 soal)** dengan tingkat kesulitan bertahap (basic, intermediate, advanced), atau cukup seperti contoh di atas untuk screening awal kandidat?
