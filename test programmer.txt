@@ -1,0 +1,104 @@
+Baik, Billy. Berikut contoh soal untuk mengetes kemampuan pelamar programmer CodeIgniter beserta jawabannya. Saya buat dalam format campuran: konsep, praktik, dan debugging agar bisa mengukur pemahaman menyeluruh.
+
+---
+
+## 📘 Soal Tes CodeIgniter
+
+### **Bagian A – Konsep Dasar**
+1. Jelaskan perbedaan antara **Controller**, **Model**, dan **View** dalam arsitektur MVC CodeIgniter.  
+2. Apa fungsi dari file **routes.php** di CodeIgniter?  
+3. Bagaimana cara mengaktifkan **CSRF Protection** di CodeIgniter?  
+
+---
+
+### **Bagian B – Praktik Koding**
+4. Buat sebuah **Controller** bernama `User` dengan method `index()` yang menampilkan daftar user dari tabel `users` menggunakan Model `User_model`.  
+5. Tulis query di Model `User_model` untuk mengambil semua data user dengan status aktif (`status = 1`).  
+6. Buat form login sederhana menggunakan **Form Helper** dan **Form Validation** di CodeIgniter.  
+
+---
+
+### **Bagian C – Debugging**
+7. Seorang programmer menulis kode berikut di Controller:
+
+```php
+public function index() {
+    $data['users'] = $this->User_model->get_users;
+    $this->load->view('user_list', $data);
+}
+```
+
+Apa kesalahan dari kode di atas dan bagaimana cara memperbaikinya?
+
+---
+
+## ✅ Jawaban
+
+### **Bagian A**
+1. **Controller**: mengatur alur aplikasi, menerima request dari user.  
+   **Model**: berhubungan dengan database, berisi logika bisnis dan query.  
+   **View**: menampilkan data ke user dalam bentuk HTML/CSS/JS.  
+
+2. `routes.php` digunakan untuk mendefinisikan URL routing, misalnya mengarahkan `example.com/profile` ke `ProfileController`.  
+
+3. Aktifkan di `application/config/config.php` dengan mengubah:
+   ```php
+   $config['csrf_protection'] = TRUE;
+   ```
+
+---
+
+### **Bagian B**
+4. **Controller User**
+   ```php
+   class User extends CI_Controller {
+       public function index() {
+           $this->load->model('User_model');
+           $data['users'] = $this->User_model->get_active_users();
+           $this->load->view('user_list', $data);
+       }
+   }
+   ```
+
+5. **Model User_model**
+   ```php
+   class User_model extends CI_Model {
+       public function get_active_users() {
+           $query = $this->db->get_where('users', ['status' => 1]);
+           return $query->result();
+       }
+   }
+   ```
+
+6. **Form Login**
+   ```php
+   class Auth extends CI_Controller {
+       public function login() {
+           $this->load->helper(['form', 'url']);
+           $this->load->library('form_validation');
+
+           $this->form_validation->set_rules('username', 'Username', 'required');
+           $this->form_validation->set_rules('password', 'Password', 'required');
+
+           if ($this->form_validation->run() == FALSE) {
+               $this->load->view('login_form');
+           } else {
+               // proses login
+               echo "Login berhasil!";
+           }
+       }
+   }
+   ```
+
+---
+
+### **Bagian C**
+7. Kesalahan: `get_users` dipanggil tanpa tanda kurung, sehingga bukan method tetapi dianggap property.  
+   **Perbaikan:**
+   ```php
+   $data['users'] = $this->User_model->get_users();
+   ```
+
+---
+
+💡 Dengan soal seperti ini, kamu bisa menguji apakah pelamar hanya tahu teori atau benar-benar bisa menulis dan memperbaiki kode. Mau saya tambahkan juga soal tingkat lanjut, misalnya tentang **REST API di CodeIgniter** atau **optimasi query**?
