@@ -197,3 +197,630 @@ Baik, berikut **jawaban kunci** untuk soal tes *CodeIgniter 3* dan *PostgreSQL* 
 ---
 
 Kalau kamu mau, saya bisa buatkan **versi soal + jawaban dalam format pilihan ganda** supaya lebih mudah dipakai sebagai *quiz online*. Mau saya siapkan juga?
+
+
+Baik, saya siapkan versi **pilihan ganda (quiz online)** lengkap dengan kunci jawaban. Format ini bisa langsung dipakai untuk ujian atau sistem *assessment*.
+
+---
+
+## 📌 Bagian A – CodeIgniter 3
+
+**1. Arsitektur MVC di CodeIgniter 3 terdiri dari:**  
+A. Model, View, Controller  
+B. Module, Variable, Class  
+C. Main, Virtual, Component  
+D. Method, Value, Constant  
+**Jawaban: A**
+
+**2. File untuk mendefinisikan *custom route* adalah:**  
+A. `config.php`  
+B. `autoload.php`  
+C. `routes.php`  
+D. `database.php`  
+**Jawaban: C**
+
+**3. Untuk mengaktifkan CSRF protection di CodeIgniter:**  
+A. `$config['csrf_protection'] = TRUE;`  
+B. `$config['csrf_token'] = TRUE;`  
+C. `$config['csrf_enable'] = TRUE;`  
+D. `$config['csrf'] = TRUE;`  
+**Jawaban: A**
+
+**4. Perbedaan utama *helper* dan *library* adalah:**  
+A. Helper berbasis OOP, Library procedural  
+B. Helper procedural, Library berbasis OOP  
+C. Keduanya sama saja  
+D. Helper hanya untuk database  
+**Jawaban: B**
+
+---
+
+## 📌 Bagian B – PostgreSQL
+
+**5. Normalisasi bentuk ke-3 (3NF) berarti:**  
+A. Tidak ada data duplikat  
+B. Tidak ada *transitive dependency*  
+C. Semua tabel punya primary key  
+D. Semua kolom bertipe numeric  
+**Jawaban: B**
+
+**6. Perintah untuk melihat rencana eksekusi query:**  
+A. `PLAN`  
+B. `EXPLAIN`  
+C. `SHOW`  
+D. `TRACE`  
+**Jawaban: B**
+
+**7. Tipe data yang paling efisien untuk query JSON di PostgreSQL:**  
+A. `TEXT`  
+B. `JSON`  
+C. `JSONB`  
+D. `VARCHAR`  
+**Jawaban: C**
+
+**8. Perintah untuk membatalkan transaksi:**  
+A. `STOP`  
+B. `ROLLBACK`  
+C. `CANCEL`  
+D. `ABORT`  
+**Jawaban: B**
+
+---
+
+## 📌 Bagian C – Praktik
+
+**9. File konfigurasi database di CodeIgniter 3 adalah:**  
+A. `application/config/database.php`  
+B. `application/config/config.php`  
+C. `application/config/routes.php`  
+D. `application/config/autoload.php`  
+**Jawaban: A**
+
+**10. Fungsi untuk menambahkan data ke tabel `users` dengan Query Builder:**  
+A. `$this->db->add('users', $data);`  
+B. `$this->db->insert('users', $data);`  
+C. `$this->db->create('users', $data);`  
+D. `$this->db->save('users', $data);`  
+**Jawaban: B**
+
+---
+
+## 📊 Skor
+- Setiap jawaban benar: **10 poin**  
+- Total soal: **10**  
+- Skor maksimal: **100 poin**
+
+---
+
+👉 Dengan format ini, kamu bisa langsung pakai untuk *quiz online* atau ujian tertulis. Mau saya tambahkan juga **soal level advanced** (misalnya query kompleks dengan `JOIN`, atau implementasi REST API di CodeIgniter 3)?
+
+
+Mantap, saya tambahkan **soal level advanced** untuk *CodeIgniter 3* dan *PostgreSQL* dalam format pilihan ganda, lengkap dengan kunci jawaban.  
+
+---
+
+## 📌 Bagian D – Advanced CodeIgniter 3
+
+**11. Jika ingin membuat REST API di CodeIgniter 3, pendekatan yang paling tepat adalah:**  
+A. Menggunakan `REST_Controller` dari library tambahan seperti *codeigniter-restserver*  
+B. Menambahkan method `api()` di setiap controller  
+C. Menggunakan `routes.php` saja  
+D. Menggunakan helper bawaan CodeIgniter  
+**Jawaban: A**
+
+**12. Bagaimana cara mengimplementasikan *middleware* (filter request) di CodeIgniter 3?**  
+A. Menggunakan `hooks` di `application/config/hooks.php`  
+B. Membuat helper baru  
+C. Menambahkan method di view  
+D. Menggunakan session library  
+**Jawaban: A**
+
+**13. Untuk menangani *pagination* dengan Query Builder di CodeIgniter:**  
+A. `$this->db->paginate('users');`  
+B. `$this->db->limit($limit, $offset);`  
+C. `$this->db->page('users', $limit);`  
+D. `$this->db->slice('users', $limit);`  
+**Jawaban: B**
+
+---
+
+## 📌 Bagian E – Advanced PostgreSQL
+
+**14. Jika ingin melakukan query dengan kondisi pencarian teks yang fleksibel, fungsi yang tepat adalah:**  
+A. `LIKE`  
+B. `ILIKE`  
+C. `SEARCH`  
+D. `MATCH`  
+**Jawaban: B**
+
+**15. Untuk meningkatkan performa query JOIN antar tabel besar, strategi yang paling efektif adalah:**  
+A. Menggunakan `FULL OUTER JOIN`  
+B. Membuat index pada kolom yang digunakan di JOIN  
+C. Menggunakan `DISTINCT`  
+D. Menggunakan `GROUP BY`  
+**Jawaban: B**
+
+**16. Fungsi `COALESCE()` di PostgreSQL digunakan untuk:**  
+A. Menggabungkan dua tabel  
+B. Mengembalikan nilai pertama yang tidak NULL  
+C. Membuat constraint baru  
+D. Menyimpan hasil query ke file  
+**Jawaban: B**
+
+**17. Jika ingin membuat *materialized view* untuk mempercepat query:**  
+A. `CREATE VIEW ...`  
+B. `CREATE MATERIALIZED VIEW ...`  
+C. `CREATE FAST VIEW ...`  
+D. `CREATE CACHE VIEW ...`  
+**Jawaban: B**
+
+**18. Untuk memperbarui data di *materialized view* agar sinkron dengan tabel asli:**  
+A. `REFRESH MATERIALIZED VIEW view_name;`  
+B. `UPDATE MATERIALIZED VIEW view_name;`  
+C. `SYNC MATERIALIZED VIEW view_name;`  
+D. `ALTER MATERIALIZED VIEW view_name;`  
+**Jawaban: A**
+
+---
+
+## 📊 Skor Advanced
+- Setiap jawaban benar: **10 poin**  
+- Total soal advanced: **8**  
+- Skor maksimal tambahan: **80 poin**  
+
+---
+
+👉 Dengan tambahan ini, kamu punya **soal dasar + advanced** yang bisa dipakai untuk menguji kandidat dari level junior sampai senior.  
+
+Mau saya gabungkan semua soal (dasar + advanced) jadi satu **paket ujian lengkap 18 soal** dengan format rapi (misalnya tabel soal + kunci jawaban di bawahnya)?
+
+
+
+Oke Billy, berikut saya gabungkan semua soal (dasar + advanced) menjadi satu **paket ujian lengkap 18 soal pilihan ganda** dengan kunci jawaban di bawahnya.  
+
+---
+
+# 📘 Paket Ujian Programmer CodeIgniter 3 & PostgreSQL
+
+## Bagian A – Dasar CodeIgniter 3
+1. Arsitektur MVC di CodeIgniter 3 terdiri dari:  
+   A. Model, View, Controller  
+   B. Module, Variable, Class  
+   C. Main, Virtual, Component  
+   D. Method, Value, Constant  
+   **Jawaban: A**
+
+2. File untuk mendefinisikan *custom route* adalah:  
+   A. `config.php`  
+   B. `autoload.php`  
+   C. `routes.php`  
+   D. `database.php`  
+   **Jawaban: C**
+
+3. Untuk mengaktifkan CSRF protection di CodeIgniter:  
+   A. `$config['csrf_protection'] = TRUE;`  
+   B. `$config['csrf_token'] = TRUE;`  
+   C. `$config['csrf_enable'] = TRUE;`  
+   D. `$config['csrf'] = TRUE;`  
+   **Jawaban: A**
+
+4. Perbedaan utama *helper* dan *library* adalah:  
+   A. Helper berbasis OOP, Library procedural  
+   B. Helper procedural, Library berbasis OOP  
+   C. Keduanya sama saja  
+   D. Helper hanya untuk database  
+   **Jawaban: B**
+
+---
+
+## Bagian B – Dasar PostgreSQL
+5. Normalisasi bentuk ke-3 (3NF) berarti:  
+   A. Tidak ada data duplikat  
+   B. Tidak ada *transitive dependency*  
+   C. Semua tabel punya primary key  
+   D. Semua kolom bertipe numeric  
+   **Jawaban: B**
+
+6. Perintah untuk melihat rencana eksekusi query:  
+   A. `PLAN`  
+   B. `EXPLAIN`  
+   C. `SHOW`  
+   D. `TRACE`  
+   **Jawaban: B**
+
+7. Tipe data yang paling efisien untuk query JSON di PostgreSQL:  
+   A. `TEXT`  
+   B. `JSON`  
+   C. `JSONB`  
+   D. `VARCHAR`  
+   **Jawaban: C**
+
+8. Perintah untuk membatalkan transaksi:  
+   A. `STOP`  
+   B. `ROLLBACK`  
+   C. `CANCEL`  
+   D. `ABORT`  
+   **Jawaban: B**
+
+---
+
+## Bagian C – Praktik
+9. File konfigurasi database di CodeIgniter 3 adalah:  
+   A. `application/config/database.php`  
+   B. `application/config/config.php`  
+   C. `application/config/routes.php`  
+   D. `application/config/autoload.php`  
+   **Jawaban: A**
+
+10. Fungsi untuk menambahkan data ke tabel `users` dengan Query Builder:  
+    A. `$this->db->add('users', $data);`  
+    B. `$this->db->insert('users', $data);`  
+    C. `$this->db->create('users', $data);`  
+    D. `$this->db->save('users', $data);`  
+    **Jawaban: B**
+
+---
+
+## Bagian D – Advanced CodeIgniter 3
+11. Jika ingin membuat REST API di CodeIgniter 3, pendekatan yang paling tepat adalah:  
+    A. Menggunakan `REST_Controller` dari library tambahan seperti *codeigniter-restserver*  
+    B. Menambahkan method `api()` di setiap controller  
+    C. Menggunakan `routes.php` saja  
+    D. Menggunakan helper bawaan CodeIgniter  
+    **Jawaban: A**
+
+12. Cara mengimplementasikan *middleware* (filter request) di CodeIgniter 3:  
+    A. Menggunakan `hooks` di `application/config/hooks.php`  
+    B. Membuat helper baru  
+    C. Menambahkan method di view  
+    D. Menggunakan session library  
+    **Jawaban: A**
+
+13. Untuk menangani *pagination* dengan Query Builder di CodeIgniter:  
+    A. `$this->db->paginate('users');`  
+    B. `$this->db->limit($limit, $offset);`  
+    C. `$this->db->page('users', $limit);`  
+    D. `$this->db->slice('users', $limit);`  
+    **Jawaban: B**
+
+---
+
+## Bagian E – Advanced PostgreSQL
+14. Fungsi pencarian teks fleksibel (case-insensitive) di PostgreSQL:  
+    A. `LIKE`  
+    B. `ILIKE`  
+    C. `SEARCH`  
+    D. `MATCH`  
+    **Jawaban: B**
+
+15. Strategi paling efektif untuk meningkatkan performa query JOIN antar tabel besar:  
+    A. Menggunakan `FULL OUTER JOIN`  
+    B. Membuat index pada kolom yang digunakan di JOIN  
+    C. Menggunakan `DISTINCT`  
+    D. Menggunakan `GROUP BY`  
+    **Jawaban: B**
+
+16. Fungsi `COALESCE()` digunakan untuk:  
+    A. Menggabungkan dua tabel  
+    B. Mengembalikan nilai pertama yang tidak NULL  
+    C. Membuat constraint baru  
+    D. Menyimpan hasil query ke file  
+    **Jawaban: B**
+
+17. Perintah untuk membuat *materialized view*:  
+    A. `CREATE VIEW ...`  
+    B. `CREATE MATERIALIZED VIEW ...`  
+    C. `CREATE FAST VIEW ...`  
+    D. `CREATE CACHE VIEW ...`  
+    **Jawaban: B**
+
+18. Perintah untuk memperbarui data di *materialized view*:  
+    A. `REFRESH MATERIALIZED VIEW view_name;`  
+    B. `UPDATE MATERIALIZED VIEW view_name;`  
+    C. `SYNC MATERIALIZED VIEW view_name;`  
+    D. `ALTER MATERIALIZED VIEW view_name;`  
+    **Jawaban: A**
+
+---
+
+## 📊 Skor Total
+- Jumlah soal: **18**  
+- Bobot per soal: **10 poin**  
+- Skor maksimal: **180 poin**  
+
+---
+
+👉 Dengan paket ini, kamu punya **ujian lengkap** yang bisa dipakai untuk seleksi kandidat dari level junior (soal dasar) hingga senior (soal advanced).  
+
+Apakah kamu ingin saya buatkan juga **versi soal essay singkat** (misalnya 3–5 soal coding praktis) untuk melengkapi tes ini?
+
+
+Baik, berikut saya tambahkan **soal essay singkat (praktis)** untuk melengkapi paket ujian. Soal ini lebih menekankan pada kemampuan coding nyata dan pemecahan masalah.  
+
+---
+
+# 📘 Soal Essay Praktis – CodeIgniter 3 & PostgreSQL
+
+**1. Implementasi CRUD (Create & Read)**  
+Tuliskan fungsi di *Model* CodeIgniter 3 untuk:  
+- Menambahkan data baru ke tabel `products` (field: `id`, `name`, `price`).  
+- Mengambil semua data produk dengan kondisi `price > 100000`.  
+
+---
+
+**2. REST API dengan CodeIgniter 3**  
+Buat sebuah *Controller* sederhana bernama `ApiUser` yang memiliki method `getUser($id)` untuk mengambil data user dari tabel `users` berdasarkan `id`. Data harus dikembalikan dalam format JSON.  
+
+---
+
+**3. Optimasi Query PostgreSQL**  
+Diberikan tabel `orders` dengan kolom `id`, `user_id`, `order_date`, `total_amount`.  
+- Buat query untuk menampilkan total belanja per user (`SUM(total_amount)`) dengan `JOIN` ke tabel `users`.  
+- Tambahkan strategi optimasi agar query lebih cepat jika tabel `orders` berisi jutaan data.  
+
+---
+
+**4. Error Handling di CodeIgniter 3**  
+Jelaskan bagaimana cara mencegah error *Undefined Index* ketika mengambil data dari form input. Sertakan contoh kode singkat.  
+
+---
+
+**5. Materialized View di PostgreSQL**  
+Anda memiliki tabel `sales` dengan data transaksi harian.  
+- Buat *materialized view* untuk menampilkan total penjualan per bulan.  
+- Tulis perintah untuk memperbarui view tersebut agar sinkron dengan tabel asli.  
+
+---
+
+# 📊 Kunci Jawaban Singkat
+
+**1. CRUD Model**
+```php
+public function insert_product($data) {
+  return $this->db->insert('products', $data);
+}
+
+public function get_expensive_products() {
+  $this->db->where('price >', 100000);
+  return $this->db->get('products')->result();
+}
+```
+
+**2. REST API Controller**
+```php
+class ApiUser extends CI_Controller {
+  public function getUser($id) {
+    $this->load->model('User_model');
+    $user = $this->User_model->get_user_by_id($id);
+    echo json_encode($user);
+  }
+}
+```
+
+**3. Query Optimasi**
+```sql
+SELECT u.id, u.name, SUM(o.total_amount) AS total_spent
+FROM users u
+JOIN orders o ON u.id = o.user_id
+GROUP BY u.id, u.name;
+```
+Optimasi: buat index pada `orders.user_id` dan `orders.order_date`.
+
+**4. Error Handling**
+```php
+$username = $this->input->post('username', TRUE);
+// atau
+if (isset($_POST['username'])) {
+   $username = $_POST['username'];
+}
+```
+
+**5. Materialized View**
+```sql
+CREATE MATERIALIZED VIEW monthly_sales AS
+SELECT DATE_TRUNC('month', sale_date) AS month,
+       SUM(amount) AS total_sales
+FROM sales
+GROUP BY DATE_TRUNC('month', sale_date);
+
+REFRESH MATERIALIZED VIEW monthly_sales;
+```
+
+---
+
+👉 Dengan tambahan soal essay ini, paket ujianmu sekarang lengkap: **18 soal pilihan ganda + 5 soal essay praktis**. Kandidat bisa diuji dari sisi teori, praktik, hingga kemampuan optimasi nyata.  
+
+Apakah kamu ingin saya buatkan **rubrik penilaian detail** (misalnya bobot tiap soal essay, kriteria jawaban sempurna vs parsial)?
+
+
+------PRAKTEK--------
+
+Baik Billy, saya buatkan **soal praktek CodeIgniter 3 + PostgreSQL dengan JOIN table**. Soal ini bisa langsung dipakai untuk menguji kemampuan kandidat dalam coding nyata.  
+
+---
+
+# 📘 Soal Praktek – CodeIgniter 3 & PostgreSQL (JOIN Table)
+
+**1. JOIN sederhana – User & Orders**  
+Tabel:  
+- `users (id, name, email)`  
+- `orders (id, user_id, order_date, total_amount)`  
+
+👉 Buat fungsi di *Model* CodeIgniter untuk mengambil daftar order beserta nama user yang melakukan order. Hasil query harus menampilkan: `order_id, user_name, order_date, total_amount`.
+
+---
+
+**2. JOIN dengan kondisi – Products & Categories**  
+Tabel:  
+- `products (id, name, category_id, price)`  
+- `categories (id, category_name)`  
+
+👉 Buat query builder CodeIgniter untuk menampilkan semua produk dengan kategori `Electronics` dan harga di atas 1 juta. Output: `product_name, category_name, price`.
+
+---
+
+**3. JOIN + Aggregasi – Orders & Order_Items**  
+Tabel:  
+- `orders (id, user_id, order_date)`  
+- `order_items (id, order_id, product_id, quantity, price)`  
+- `products (id, name)`  
+
+👉 Buat query untuk menampilkan total belanja per order, dengan detail: `order_id, user_name, total_amount`.  
+Hint: gunakan `SUM(order_items.quantity * order_items.price)`.
+
+---
+
+**4. JOIN dengan Pagination – Users & Orders**  
+👉 Buat controller `OrderController` dengan method `list($page)` yang menampilkan daftar order (JOIN dengan user) menggunakan pagination (limit 10 per halaman).
+
+---
+
+**5. JOIN + Error Handling**  
+👉 Buat query builder CodeIgniter untuk menampilkan semua order, tetapi jika user tidak ditemukan (misalnya data `user_id` tidak ada di tabel `users`), tetap tampilkan order dengan `user_name = 'Unknown'`.
+
+---
+
+# 📊 Kunci Jawaban Singkat
+
+**1. JOIN User & Orders**
+```php
+public function get_orders_with_users() {
+  $this->db->select('orders.id as order_id, users.name as user_name, orders.order_date, orders.total_amount');
+  $this->db->from('orders');
+  $this->db->join('users', 'users.id = orders.user_id');
+  return $this->db->get()->result();
+}
+```
+
+**2. JOIN Products & Categories**
+```php
+$this->db->select('products.name as product_name, categories.category_name, products.price');
+$this->db->from('products');
+$this->db->join('categories', 'categories.id = products.category_id');
+$this->db->where('categories.category_name', 'Electronics');
+$this->db->where('products.price >', 1000000);
+$query = $this->db->get()->result();
+```
+
+**3. JOIN + Aggregasi**
+```sql
+SELECT o.id AS order_id, u.name AS user_name,
+       SUM(oi.quantity * oi.price) AS total_amount
+FROM orders o
+JOIN users u ON u.id = o.user_id
+JOIN order_items oi ON oi.order_id = o.id
+GROUP BY o.id, u.name;
+```
+
+**4. Pagination**
+```php
+public function list($page = 1) {
+  $limit = 10;
+  $offset = ($page - 1) * $limit;
+  $this->db->select('orders.id, users.name, orders.order_date, orders.total_amount');
+  $this->db->from('orders');
+  $this->db->join('users', 'users.id = orders.user_id');
+  $this->db->limit($limit, $offset);
+  $data['orders'] = $this->db->get()->result();
+  $this->load->view('orders/list', $data);
+}
+```
+
+**5. LEFT JOIN + COALESCE**
+```php
+$this->db->select('orders.id, COALESCE(users.name, "Unknown") as user_name, orders.order_date, orders.total_amount');
+$this->db->from('orders');
+$this->db->join('users', 'users.id = orders.user_id', 'left');
+$query = $this->db->get()->result();
+```
+
+---
+
+👉 Dengan soal praktek ini, kandidat akan diuji kemampuan **JOIN, aggregasi, pagination, dan error handling** di CodeIgniter 3 + PostgreSQL.  
+
+Mau saya buatkan juga **rubrik penilaian detail** (misalnya poin untuk query benar, penggunaan JOIN tepat, handling error, dsb) agar lebih objektif saat menilai hasil ujian?
+
+
+Baik, saya buatkan **contoh isi tabel** untuk soal praktek JOIN di CodeIgniter + PostgreSQL. Data ini bisa dipakai sebagai *dummy data* untuk ujian atau simulasi.
+
+---
+
+## 📌 Tabel `users`
+| id | name        | email              |
+|----|-------------|--------------------|
+| 1  | Andi        | andi@mail.com      |
+| 2  | Budi        | budi@mail.com      |
+| 3  | Citra       | citra@mail.com     |
+| 4  | Dewi        | dewi@mail.com      |
+
+---
+
+## 📌 Tabel `orders`
+| id | user_id | order_date | total_amount |
+|----|---------|------------|--------------|
+| 101| 1       | 2026-03-01 | 250000       |
+| 102| 2       | 2026-03-02 | 500000       |
+| 103| 1       | 2026-03-05 | 150000       |
+| 104| 3       | 2026-03-06 | 750000       |
+
+---
+
+## 📌 Tabel `categories`
+| id | category_name |
+|----|---------------|
+| 1  | Electronics   |
+| 2  | Fashion       |
+| 3  | Groceries     |
+
+---
+
+## 📌 Tabel `products`
+| id | name           | category_id | price   |
+|----|----------------|-------------|---------|
+| 201| Laptop Asus    | 1           | 8500000 |
+| 202| Smartphone OPPO| 1           | 3500000 |
+| 203| T-Shirt Polo   | 2           | 150000  |
+| 204| Beras 5kg      | 3           | 70000   |
+
+---
+
+## 📌 Tabel `order_items`
+| id | order_id | product_id | quantity | price   |
+|----|----------|------------|----------|---------|
+| 301| 101      | 201        | 1        | 8500000 |
+| 302| 101      | 203        | 2        | 150000  |
+| 303| 102      | 202        | 1        | 3500000 |
+| 304| 103      | 204        | 3        | 70000   |
+| 305| 104      | 201        | 2        | 8500000 |
+
+---
+
+## 📊 Contoh Hasil JOIN
+
+**JOIN `orders` + `users`:**
+| order_id | user_name | order_date | total_amount |
+|----------|-----------|------------|--------------|
+| 101      | Andi      | 2026-03-01 | 250000       |
+| 102      | Budi      | 2026-03-02 | 500000       |
+| 103      | Andi      | 2026-03-05 | 150000       |
+| 104      | Citra     | 2026-03-06 | 750000       |
+
+**JOIN `products` + `categories` (Electronics, price > 1 juta):**
+| product_name   | category_name | price   |
+|----------------|---------------|---------|
+| Laptop Asus    | Electronics   | 8500000 |
+| Smartphone OPPO| Electronics   | 3500000 |
+
+**JOIN `orders` + `order_items` + `users`:**
+| order_id | user_name | total_amount |
+|----------|-----------|--------------|
+| 101      | Andi      | 8800000      |
+| 102      | Budi      | 3500000      |
+| 103      | Andi      | 210000       |
+| 104      | Citra     | 17000000     |
+
+---
+
+👉 Dengan contoh isi tabel ini, kandidat bisa langsung diuji untuk menulis query JOIN di PostgreSQL dan implementasi Query Builder di CodeIgniter.  
+
+Apakah kamu mau saya buatkan juga **script SQL untuk CREATE TABLE + INSERT data** agar bisa langsung dicoba di PostgreSQL?
