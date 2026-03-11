@@ -1,0 +1,199 @@
+**Berikut adalah kumpulan soal tes untuk programmer dengan fokus pada *CodeIgniter 3* dan *PostgreSQL*. Soal mencakup konsep dasar, praktik implementasi, serta troubleshooting agar bisa mengukur kemampuan kandidat secara menyeluruh.**
+
+---
+
+## 📌 Bagian A – Teori CodeIgniter 3
+1. **Jelaskan arsitektur MVC di CodeIgniter 3.**  
+   - Apa peran *Controller*, *Model*, dan *View*?  
+   - Bagaimana data berpindah antar komponen?
+
+2. **Routing di CodeIgniter 3**  
+   - Bagaimana cara mendefinisikan *custom route* di `routes.php`?  
+   - Apa keuntungan menggunakan *routing* dibandingkan akses langsung ke controller?
+
+3. **Security**  
+   - Bagaimana CodeIgniter menangani *CSRF protection*?  
+   - Sebutkan cara mengaktifkan *XSS filtering* pada input form.
+
+4. **Session Management**  
+   - Jelaskan cara menggunakan *Session Library* di CodeIgniter.  
+   - Apa perbedaan antara session berbasis file dan database?
+
+5. **Helper dan Library**  
+   - Apa perbedaan antara *helper* dan *library*?  
+   - Berikan contoh penggunaan *form helper*.
+
+---
+
+## 📌 Bagian B – PostgreSQL
+1. **Database Design**  
+   - Apa itu *normalisasi*? Sebutkan minimal 3 bentuk normalisasi yang umum digunakan.  
+   - Bagaimana cara mendefinisikan *foreign key constraint* di PostgreSQL?
+
+2. **Query Optimization**  
+   - Jelaskan fungsi `EXPLAIN` dalam PostgreSQL.  
+   - Bagaimana cara meningkatkan performa query dengan *index*?
+
+3. **Data Types**  
+   - Apa perbedaan tipe data `VARCHAR`, `TEXT`, dan `CHAR` di PostgreSQL?  
+   - Kapan sebaiknya menggunakan `JSONB` dibandingkan `JSON`?
+
+4. **Transactions**  
+   - Jelaskan konsep *ACID* dalam PostgreSQL.  
+   - Apa perbedaan antara `COMMIT` dan `ROLLBACK`?
+
+5. **Stored Procedures & Functions**  
+   - Bagaimana cara membuat *function* di PostgreSQL menggunakan PL/pgSQL?  
+   - Berikan contoh function sederhana untuk menghitung diskon harga.
+
+---
+
+## 📌 Bagian C – Praktik (Hands-On)
+1. **Integrasi CodeIgniter 3 dengan PostgreSQL**  
+   - Buat konfigurasi database di `database.php` untuk koneksi PostgreSQL.  
+   - Tulis query builder CodeIgniter untuk mengambil data `users` dengan kondisi `status = 'active'`.
+
+2. **CRUD Implementation**  
+   - Buat fungsi `insert_user()` di Model untuk menambahkan data ke tabel `users`.  
+   - Buat controller `User` dengan method `delete($id)` untuk menghapus data berdasarkan ID.
+
+3. **Error Handling**  
+   - Bagaimana cara menangani error “Undefined index” dalam PHP/CodeIgniter?
+   - Bagaimana cara menampilkan pesan error query PostgreSQL di CodeIgniter?
+
+---
+
+## 📊 Format Penilaian
+| Aspek | Bobot |
+|-------|-------|
+| Pemahaman Teori (MVC, Routing, Security) | **30%** |
+| PostgreSQL Query & Design | **30%** |
+| Implementasi Praktis (CRUD, Integrasi) | **30%** |
+| Error Handling & Best Practices | **10%** |
+
+---
+
+👉 Dengan soal-soal ini, kandidat akan diuji dari sisi **konsep, praktik, dan troubleshooting**, sehingga bisa terlihat apakah mereka hanya hafal teori atau benar-benar mampu mengimplementasikan solusi nyata.  
+
+Apakah kamu ingin saya buatkan juga **jawaban kunci** atau cukup soal saja untuk tes?
+
+
+Baik, berikut **jawaban kunci** untuk soal tes *CodeIgniter 3* dan *PostgreSQL* yang saya buat sebelumnya.  
+
+---
+
+## 📌 Bagian A – Teori CodeIgniter 3
+1. **MVC**  
+   - *Model*: mengelola data dan logika bisnis.  
+   - *View*: menampilkan data ke pengguna.  
+   - *Controller*: penghubung antara model dan view, menerima input dari user.  
+   - Data berpindah: User → Controller → Model → Controller → View → User.
+
+2. **Routing**  
+   - Definisi di `application/config/routes.php`, contoh:  
+     ```php
+     $route['users/(:num)'] = 'UserController/detail/$1';
+     ```  
+   - Keuntungan: URL lebih rapi, fleksibel, dan aman.
+
+3. **Security**  
+   - CSRF: aktifkan di `config.php` → `$config['csrf_protection'] = TRUE;`.  
+   - XSS Filtering: gunakan `$this->input->post('field', TRUE);`.
+
+4. **Session Management**  
+   - Load library: `$this->load->library('session');`.  
+   - File-based: default, disimpan di server.  
+   - Database-based: lebih aman, cocok untuk aplikasi skala besar.
+
+5. **Helper vs Library**  
+   - Helper: kumpulan fungsi procedural (misalnya `form_open()`).  
+   - Library: class OOP dengan state dan method (misalnya `email`).  
+   - Contoh: `form_input('username');`.
+
+---
+
+## 📌 Bagian B – PostgreSQL
+1. **Normalisasi**  
+   - 1NF: data atomic.  
+   - 2NF: setiap kolom bergantung pada primary key.  
+   - 3NF: tidak ada *transitive dependency*.  
+   - Foreign key:  
+     ```sql
+     ALTER TABLE orders ADD CONSTRAINT fk_user FOREIGN KEY(user_id) REFERENCES users(id);
+     ```
+
+2. **Query Optimization**  
+   - `EXPLAIN SELECT * FROM users;` → menampilkan rencana eksekusi query.  
+   - Index: `CREATE INDEX idx_users_status ON users(status);`.
+
+3. **Data Types**  
+   - `CHAR(n)`: fixed length.  
+   - `VARCHAR(n)`: variable length dengan batas.  
+   - `TEXT`: panjang tidak terbatas.  
+   - `JSONB`: binary storage, lebih cepat untuk query dibanding `JSON`.
+
+4. **Transactions**  
+   - ACID: Atomicity, Consistency, Isolation, Durability.  
+   - `COMMIT`: menyimpan perubahan.  
+   - `ROLLBACK`: membatalkan transaksi.
+
+5. **Function**  
+   ```sql
+   CREATE OR REPLACE FUNCTION calc_discount(price NUMERIC, percent NUMERIC)
+   RETURNS NUMERIC AS $$
+   BEGIN
+     RETURN price - (price * percent / 100);
+   END;
+   $$ LANGUAGE plpgsql;
+   ```
+
+---
+
+## 📌 Bagian C – Praktik
+1. **Konfigurasi DB** (`application/config/database.php`)  
+   ```php
+   $db['default'] = array(
+     'dsn'   => '',
+     'hostname' => 'localhost',
+     'username' => 'postgres',
+     'password' => 'yourpassword',
+     'database' => 'yourdb',
+     'dbdriver' => 'postgre',
+     'dbprefix' => '',
+     'pconnect' => FALSE,
+     'db_debug' => TRUE,
+   );
+   ```  
+   - Query builder:  
+     ```php
+     $this->db->where('status', 'active');
+     $query = $this->db->get('users');
+     ```
+
+2. **CRUD**  
+   - Model:  
+     ```php
+     public function insert_user($data) {
+       return $this->db->insert('users', $data);
+     }
+     ```  
+   - Controller:  
+     ```php
+     public function delete($id) {
+       $this->User_model->delete_user($id);
+     }
+     ```
+
+3. **Error Handling**  
+   - Undefined index: gunakan `isset()` atau `array_key_exists()`.  
+   - Error query: aktifkan `$db['default']['db_debug'] = TRUE;` atau tangkap dengan `try-catch`.
+
+---
+
+## 📊 Penilaian
+- Jawaban yang lengkap, dengan contoh kode, akan mendapat skor penuh.  
+- Kandidat yang hanya menjawab teori tanpa praktik akan mendapat nilai parsial.  
+
+---
+
+Kalau kamu mau, saya bisa buatkan **versi soal + jawaban dalam format pilihan ganda** supaya lebih mudah dipakai sebagai *quiz online*. Mau saya siapkan juga?
