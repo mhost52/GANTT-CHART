@@ -1,0 +1,225 @@
+Baik, berikut contoh soal tes seleksi programmer **CodeIgniter 3** dengan fokus pada **CRUD** dan **join beberapa tabel**. Saya sertakan juga struktur tabel dan data dummy yang bisa dijadikan bahan soal:
+
+---
+
+## 📌 Deskripsi Soal
+Buat sebuah aplikasi sederhana menggunakan **CodeIgniter 3** yang dapat melakukan operasi CRUD (Create, Read, Update, Delete) pada data **Mahasiswa** dan menampilkan informasi gabungan dari tabel **Mahasiswa**, **Jurusan**, dan **Dosen**.
+
+---
+
+## 🗂 Struktur Tabel
+
+### 1. Tabel `jurusan`
+| id_jurusan | nama_jurusan       |
+|------------|--------------------|
+| 1          | Teknik Informatika |
+| 2          | Sistem Informasi   |
+| 3          | Manajemen          |
+
+### 2. Tabel `dosen`
+| id_dosen | nama_dosen        | email              |
+|----------|-------------------|--------------------|
+| 1        | Dr. Andi Wijaya   | andi@kampus.ac.id  |
+| 2        | Prof. Siti Rahma  | siti@kampus.ac.id  |
+| 3        | Dr. Budi Santoso  | budi@kampus.ac.id  |
+
+### 3. Tabel `mahasiswa`
+| id_mahasiswa | nama_mahasiswa | nim       | id_jurusan | id_dosen |
+|--------------|----------------|-----------|------------|----------|
+| 1            | Ahmad Fauzi    | 21001     | 1          | 1        |
+| 2            | Rina Kartika   | 21002     | 2          | 2        |
+| 3            | Joko Prasetyo  | 21003     | 1          | 3        |
+
+---
+
+## 📝 Instruksi Soal
+
+1. **CRUD Mahasiswa**  
+   - Buat form untuk menambah, mengedit, dan menghapus data mahasiswa.  
+   - Validasi agar `nim` tidak boleh duplikat.  
+
+2. **Join Tabel**  
+   - Tampilkan daftar mahasiswa dengan informasi:  
+     - Nama Mahasiswa  
+     - NIM  
+     - Nama Jurusan (dari tabel `jurusan`)  
+     - Nama Dosen Pembimbing (dari tabel `dosen`)  
+
+   Contoh output:  
+   ```
+   Ahmad Fauzi | 21001 | Teknik Informatika | Dr. Andi Wijaya
+   ```
+
+3. **Bonus (Opsional)**  
+   - Tambahkan fitur pencarian mahasiswa berdasarkan jurusan.  
+   - Tambahkan pagination pada daftar mahasiswa.  
+
+---
+
+## 🎯 Tujuan Penilaian
+- Kemampuan membuat **controller, model, dan view** di CodeIgniter 3.  
+- Pemahaman query **JOIN** antar tabel di model.  
+- Penerapan validasi form dan keamanan dasar (misalnya XSS filtering).  
+- Struktur kode yang rapi dan mudah dipahami.  
+
+---
+
+Apakah kamu ingin saya buatkan juga **contoh query JOIN** dan **potongan kode model di CodeIgniter 3** untuk melengkapi soal ini, supaya kandidat bisa langsung diuji dengan implementasi nyata?
+
+
+Baik, berikut contoh **jawaban implementasi** dari soal CRUD dan join tabel di **CodeIgniter 3**. Saya buatkan potongan kode untuk **Model, Controller, dan View** agar kandidat bisa menunjukkan pemahaman penuh.
+
+---
+
+## 📂 Model (`Mahasiswa_model.php`)
+```php
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Mahasiswa_model extends CI_Model {
+
+    // Ambil semua data mahasiswa dengan join jurusan & dosen
+    public function get_all() {
+        $this->db->select('mahasiswa.id_mahasiswa, mahasiswa.nama_mahasiswa, mahasiswa.nim, jurusan.nama_jurusan, dosen.nama_dosen');
+        $this->db->from('mahasiswa');
+        $this->db->join('jurusan', 'jurusan.id_jurusan = mahasiswa.id_jurusan');
+        $this->db->join('dosen', 'dosen.id_dosen = mahasiswa.id_dosen');
+        return $this->db->get()->result();
+    }
+
+    // Tambah data mahasiswa
+    public function insert($data) {
+        return $this->db->insert('mahasiswa', $data);
+    }
+
+    // Ambil data mahasiswa berdasarkan id
+    public function get_by_id($id) {
+        return $this->db->get_where('mahasiswa', ['id_mahasiswa' => $id])->row();
+    }
+
+    // Update data mahasiswa
+    public function update($id, $data) {
+        $this->db->where('id_mahasiswa', $id);
+        return $this->db->update('mahasiswa', $data);
+    }
+
+    // Hapus data mahasiswa
+    public function delete($id) {
+        return $this->db->delete('mahasiswa', ['id_mahasiswa' => $id]);
+    }
+}
+```
+
+---
+
+## 📂 Controller (`Mahasiswa.php`)
+```php
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Mahasiswa extends CI_Controller {
+
+    public function __construct() {
+        parent::__construct();
+        $this->load->model('Mahasiswa_model');
+        $this->load->library('form_validation');
+    }
+
+    // Tampilkan daftar mahasiswa
+    public function index() {
+        $data['mahasiswa'] = $this->Mahasiswa_model->get_all();
+        $this->load->view('mahasiswa_list', $data);
+    }
+
+    // Tambah mahasiswa
+    public function create() {
+        $this->form_validation->set_rules('nim', 'NIM', 'required|is_unique[mahasiswa.nim]');
+        $this->form_validation->set_rules('nama_mahasiswa', 'Nama', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->load->view('mahasiswa_form');
+        } else {
+            $data = [
+                'nim' => $this->input->post('nim'),
+                'nama_mahasiswa' => $this->input->post('nama_mahasiswa'),
+                'id_jurusan' => $this->input->post('id_jurusan'),
+                'id_dosen' => $this->input->post('id_dosen')
+            ];
+            $this->Mahasiswa_model->insert($data);
+            redirect('mahasiswa');
+        }
+    }
+
+    // Edit mahasiswa
+    public function edit($id) {
+        $data['mahasiswa'] = $this->Mahasiswa_model->get_by_id($id);
+
+        if ($this->input->post()) {
+            $update = [
+                'nim' => $this->input->post('nim'),
+                'nama_mahasiswa' => $this->input->post('nama_mahasiswa'),
+                'id_jurusan' => $this->input->post('id_jurusan'),
+                'id_dosen' => $this->input->post('id_dosen')
+            ];
+            $this->Mahasiswa_model->update($id, $update);
+            redirect('mahasiswa');
+        }
+
+        $this->load->view('mahasiswa_form', $data);
+    }
+
+    // Hapus mahasiswa
+    public function delete($id) {
+        $this->Mahasiswa_model->delete($id);
+        redirect('mahasiswa');
+    }
+}
+```
+
+---
+
+## 📂 View (`mahasiswa_list.php`)
+```php
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daftar Mahasiswa</title>
+</head>
+<body>
+    <h2>Daftar Mahasiswa</h2>
+    <a href="<?php echo site_url('mahasiswa/create'); ?>">Tambah Mahasiswa</a>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>Nama</th>
+            <th>NIM</th>
+            <th>Jurusan</th>
+            <th>Dosen Pembimbing</th>
+            <th>Aksi</th>
+        </tr>
+        <?php foreach ($mahasiswa as $m): ?>
+        <tr>
+            <td><?php echo $m->nama_mahasiswa; ?></td>
+            <td><?php echo $m->nim; ?></td>
+            <td><?php echo $m->nama_jurusan; ?></td>
+            <td><?php echo $m->nama_dosen; ?></td>
+            <td>
+                <a href="<?php echo site_url('mahasiswa/edit/'.$m->id_mahasiswa); ?>">Edit</a> |
+                <a href="<?php echo site_url('mahasiswa/delete/'.$m->id_mahasiswa); ?>" onclick="return confirm('Yakin hapus?')">Delete</a>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+</body>
+</html>
+```
+
+---
+
+## 🎯 Hasil yang Diharapkan
+- Data mahasiswa bisa ditambah, diubah, dan dihapus.  
+- Daftar mahasiswa tampil dengan **join** jurusan dan dosen.  
+- Validasi `nim` agar tidak duplikat.  
+
+---
+
+Apakah kamu ingin saya tambahkan juga **contoh query SQL untuk membuat tabel** (`CREATE TABLE`) agar kandidat bisa langsung menjalankan di database sebelum coding?
