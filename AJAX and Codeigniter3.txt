@@ -1,0 +1,278 @@
+**Di CodeIgniter 3, fungsi AJAX biasanya digunakan untuk mengirim atau mengambil data dari server tanpa perlu reload halaman. Implementasinya melibatkan jQuery di sisi front-end dan controller di sisi server untuk memproses request.**  
+
+---
+
+## 🔑 Konsep Dasar AJAX di CodeIgniter 3
+- **Front-end (JavaScript/jQuery):**
+  - Gunakan `$.ajax()` atau shorthand seperti `$.post()` / `$.get()`.
+  - Data dikirim ke URL yang mengarah ke controller CodeIgniter.
+- **Controller (CI3):**
+  - Menerima request (GET/POST).
+  - Memproses data (misalnya simpan ke database lewat model).
+  - Mengembalikan response (biasanya JSON).
+- **Model (opsional):**
+  - Digunakan untuk interaksi database.
+- **View:**
+  - Menyediakan form atau tombol yang memicu AJAX.
+
+---
+
+## 📂 Contoh Implementasi AJAX di CodeIgniter 3
+
+### 1. View (HTML + jQuery)
+```html
+<form id="myForm">
+  <input type="text" name="nama" placeholder="Masukkan Nama">
+  <button type="submit">Simpan</button>
+</form>
+
+<div id="result"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$('#myForm').on('submit', function(e){
+    e.preventDefault();
+    $.ajax({
+        url: "<?php echo site_url('UserController/simpan'); ?>",
+        type: "POST",
+        data: $(this).serialize(),
+        dataType: "json",
+        success: function(response){
+            if(response.status == 'success'){
+                $('#result').html("Data berhasil disimpan!");
+            } else {
+                $('#result').html("Gagal menyimpan data.");
+            }
+        }
+    });
+});
+</script>
+```
+
+### 2. Controller (UserController.php)
+```php
+class UserController extends CI_Controller {
+    public function simpan(){
+        $nama = $this->input->post('nama');
+        if(!empty($nama)){
+            // contoh simpan ke database
+            $this->db->insert('users', ['nama' => $nama]);
+            echo json_encode(['status' => 'success']);
+        } else {
+            echo json_encode(['status' => 'error']);
+        }
+    }
+}
+```
+
+### 3. Model (opsional)
+```php
+class User_model extends CI_Model {
+    public function insert_user($data){
+        return $this->db->insert('users', $data);
+    }
+}
+```
+
+---
+
+## ⚠️ Hal Penting & Best Practice
+- **Gunakan `dataType: "json"`** agar response lebih terstruktur.
+- **Validasi input** di controller sebelum simpan ke database.
+- **Gunakan CSRF protection** (aktifkan di `config.php` dan sertakan token di AJAX).
+- **Pisahkan logika ke model** untuk menjaga arsitektur MVC tetap bersih.
+- **Gunakan `site_url()` atau `base_url()`** agar URL dinamis sesuai konfigurasi.
+
+---
+
+## 📊 Perbandingan Metode AJAX di CI3
+
+| Metode jQuery | Kelebihan | Kekurangan |
+|---------------|-----------|------------|
+| `$.ajax()`    | Fleksibel, bisa atur semua opsi (method, dataType, headers) | Lebih panjang penulisannya |
+| `$.post()`    | Ringkas untuk POST request | Hanya cocok untuk kasus sederhana |
+| `$.get()`     | Ringkas untuk GET request | Tidak cocok untuk kirim data kompleks |
+
+---
+
+👉 Jadi, di CodeIgniter 3 AJAX bukan fungsi bawaan, melainkan kombinasi **jQuery (front-end)** dan **controller (back-end)**. Dengan pola ini, kamu bisa membuat CRUD tanpa reload halaman, misalnya untuk form input, tabel dinamis, atau modal detail data.  
+
+Mau saya tunjukkan contoh **AJAX CRUD lengkap (Create, Read, Update, Delete)** di CodeIgniter 3 dengan tabel database sederhana?
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+Baik, mari kita buat contoh **CRUD dengan AJAX di CodeIgniter 3** supaya lebih jelas.  
+
+---
+
+## 📂 Struktur CRUD AJAX di CI3
+- **View**: Form input + tabel data + tombol edit/hapus.
+- **Controller**: Menangani request AJAX (Create, Read, Update, Delete).
+- **Model**: Interaksi dengan database.
+- **Database**: Tabel sederhana, misalnya `users`.
+
+---
+
+### 1. Database
+```sql
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL
+);
+```
+
+---
+
+### 2. Model (User_model.php)
+```php
+class User_model extends CI_Model {
+    public function get_all(){
+        return $this->db->get('users')->result();
+    }
+
+    public function insert($data){
+        return $this->db->insert('users', $data);
+    }
+
+    public function update($id, $data){
+        return $this->db->where('id', $id)->update('users', $data);
+    }
+
+    public function delete($id){
+        return $this->db->where('id', $id)->delete('users');
+    }
+}
+```
+
+---
+
+### 3. Controller (UserController.php)
+```php
+class UserController extends CI_Controller {
+    public function index(){
+        $this->load->view('user_view');
+    }
+
+    public function get_users(){
+        $users = $this->User_model->get_all();
+        echo json_encode($users);
+    }
+
+    public function insert(){
+        $data = [
+            'nama' => $this->input->post('nama'),
+            'email' => $this->input->post('email')
+        ];
+        $this->User_model->insert($data);
+        echo json_encode(['status' => 'success']);
+    }
+
+    public function update(){
+        $id = $this->input->post('id');
+        $data = [
+            'nama' => $this->input->post('nama'),
+            'email' => $this->input->post('email')
+        ];
+        $this->User_model->update($id, $data);
+        echo json_encode(['status' => 'success']);
+    }
+
+    public function delete(){
+        $id = $this->input->post('id');
+        $this->User_model->delete($id);
+        echo json_encode(['status' => 'success']);
+    }
+}
+```
+
+---
+
+### 4. View (user_view.php)
+```html
+<h3>Form User</h3>
+<form id="formUser">
+  <input type="hidden" name="id" id="id">
+  <input type="text" name="nama" id="nama" placeholder="Nama">
+  <input type="email" name="email" id="email" placeholder="Email">
+  <button type="submit">Simpan</button>
+</form>
+
+<h3>Data User</h3>
+<table border="1" id="userTable">
+  <thead>
+    <tr><th>ID</th><th>Nama</th><th>Email</th><th>Aksi</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+function loadUsers(){
+  $.get("<?php echo site_url('UserController/get_users'); ?>", function(data){
+    let users = JSON.parse(data);
+    let rows = '';
+    users.forEach(u => {
+      rows += `<tr>
+        <td>${u.id}</td>
+        <td>${u.nama}</td>
+        <td>${u.email}</td>
+        <td>
+          <button onclick="editUser(${u.id}, '${u.nama}', '${u.email}')">Edit</button>
+          <button onclick="deleteUser(${u.id})">Delete</button>
+        </td>
+      </tr>`;
+    });
+    $('#userTable tbody').html(rows);
+  });
+}
+
+$('#formUser').on('submit', function(e){
+  e.preventDefault();
+  let id = $('#id').val();
+  let url = id ? "<?php echo site_url('UserController/update'); ?>" : "<?php echo site_url('UserController/insert'); ?>";
+  $.post(url, $(this).serialize(), function(response){
+    let res = JSON.parse(response);
+    if(res.status == 'success'){
+      loadUsers();
+      $('#formUser')[0].reset();
+      $('#id').val('');
+    }
+  });
+});
+
+function editUser(id, nama, email){
+  $('#id').val(id);
+  $('#nama').val(nama);
+  $('#email').val(email);
+}
+
+function deleteUser(id){
+  $.post("<?php echo site_url('UserController/delete'); ?>", {id:id}, function(response){
+    let res = JSON.parse(response);
+    if(res.status == 'success'){
+      loadUsers();
+    }
+  });
+}
+
+$(document).ready(function(){
+  loadUsers();
+});
+</script>
+```
+
+---
+
+## 🚀 Alur Kerja
+1. **Load data** → AJAX `get_users` menampilkan tabel.
+2. **Tambah data** → Form submit ke `insert`.
+3. **Edit data** → Isi form dengan data lama, submit ke `update`.
+4. **Hapus data** → Tombol delete kirim ke `delete`.
+
+---
+
+Dengan pola ini, kamu bisa membuat CRUD full AJAX di CodeIgniter 3 tanpa reload halaman.  
+
+Apakah kamu mau saya tambahkan **versi dengan DataTables** supaya tabel lebih interaktif (search, sort, pagination)?
