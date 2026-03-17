@@ -1,0 +1,97 @@
+Baik, saya tunjukkan alur integrasi **React (Axios)** dengan **ASP.NET Core API** supaya jelas bagaimana keduanya saling berkomunikasi:
+
+---
+
+## 📌 Struktur Proyek
+Biasanya proyek ASP.NET Core + React dipisahkan menjadi dua bagian:
+```
+/MyApp
+  /backend   -> ASP.NET Core (API)
+  /frontend  -> React JS (Axios)
+```
+
+- **Backend (ASP.NET Core)** → menyediakan endpoint API, misalnya `/api/products`.
+- **Frontend (React JS)** → menggunakan Axios untuk memanggil endpoint tersebut.
+
+---
+
+## 🔑 Contoh Backend ASP.NET Core
+```csharp
+// ProductsController.cs
+[ApiController]
+[Route("api/[controller]")]
+public class ProductsController : ControllerBase
+{
+    [HttpGet]
+    public IActionResult GetProducts()
+    {
+        var products = new List<object>
+        {
+            new { Id = 1, Name = "Kain Katun", Price = 50000 },
+            new { Id = 2, Name = "Kain Sutra", Price = 150000 }
+        };
+        return Ok(products); // return JSON
+    }
+}
+```
+
+👉 Endpoint ini akan mengembalikan data JSON ketika dipanggil di URL:  
+`https://localhost:5001/api/products`
+
+---
+
+## 📌 Contoh Frontend React dengan Axios
+```javascript
+// Products.js
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+function Products() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    axios.get("https://localhost:5001/api/products")
+      .then(res => setProducts(res.data))
+      .catch(err => console.error(err));
+  }, []);
+
+  return (
+    <ul>
+      {products.map(p => (
+        <li key={p.Id}>{p.Name} - Rp {p.Price}</li>
+      ))}
+    </ul>
+  );
+}
+
+export default Products;
+```
+
+👉 Di sini **Axios dipasang di React**, memanggil API ASP.NET Core, lalu hasil JSON ditampilkan di UI.
+
+---
+
+## ⚠️ Catatan Penting
+- **Axios hanya di React (frontend)** → dipasang dengan `npm install axios`.  
+- **ASP.NET Core tidak pakai Axios** → cukup menyediakan API. Kalau ASP.NET Core perlu memanggil API lain, gunakan `HttpClient`.  
+- Pastikan **CORS** di ASP.NET Core diaktifkan agar React bisa mengakses API dari domain berbeda.  
+
+Contoh konfigurasi CORS di `Program.cs`:
+```csharp
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy => policy.WithOrigins("http://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+});
+
+var app = builder.Build();
+app.UseCors("AllowReactApp");
+```
+
+---
+
+✅ Jadi, ringkasnya: **Axios selalu di React JS**, sedangkan ASP.NET Core hanya menyediakan API JSON.  
+
+Apakah kamu mau saya buatkan **diagram alur komunikasi React (Axios) ↔ ASP.NET Core API ↔ Database** supaya lebih visual dan mudah dipahami?
