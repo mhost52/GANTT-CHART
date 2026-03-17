@@ -502,3 +502,208 @@ Jika ingin lebih rapi, logika query bisa dipindahkan ke model. Controller hanya 
 ---
 
 Kalau kamu mau, saya bisa tambahkan **versi dengan tombol CRUD (Create, Update, Delete) langsung di DataTables** menggunakan modal form agar lebih profesional. Mau saya buatkan juga?
+
+
+Baik, mari kita buat contoh **CRUD AJAX dengan DataTables + Modal Form** di CodeIgniter 3. Dengan cara ini, user bisa menambah, edit, dan hapus data langsung lewat modal pop-up, sementara tabel tetap interaktif dengan search, sort, dan pagination.
+
+---
+
+## 📂 Struktur CRUD dengan Modal
+- **View**: Tabel DataTables + Modal Form.
+- **Controller**: Endpoint untuk Create, Read, Update, Delete.
+- **Model**: Query database.
+- **Database**: Tabel `users`.
+
+---
+
+### 1. View (user_view.php)
+```html
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="container mt-4">
+  <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#userModal" onclick="resetForm()">Tambah User</button>
+  <table id="userTable" class="display table table-bordered">
+    <thead>
+      <tr><th>ID</th><th>Nama</th><th>Email</th><th>Aksi</th></tr>
+    </thead>
+  </table>
+</div>
+
+<!-- Modal Form -->
+<div class="modal fade" id="userModal" tabindex="-1">
+  <div class="modal-dialog">
+    <form id="formUser" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Form User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="id" id="id">
+        <div class="mb-3">
+          <label>Nama</label>
+          <input type="text" name="nama" id="nama" class="form-control">
+        </div>
+        <div class="mb-3">
+          <label>Email</label>
+          <input type="email" name="email" id="email" class="form-control">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Simpan</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+$(document).ready(function(){
+  let table = $('#userTable').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: {
+      url: "<?php echo site_url('UserController/get_users_server'); ?>",
+      type: "POST"
+    },
+    columns: [
+      { data: 'id' },
+      { data: 'nama' },
+      { data: 'email' },
+      { data: null, render: function(data){
+          return `
+            <button class="btn btn-warning btn-sm" onclick="editUser(${data.id}, '${data.nama}', '${data.email}')">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteUser(${data.id})">Delete</button>
+          `;
+        }
+      }
+    ]
+  });
+
+  $('#formUser').on('submit', function(e){
+    e.preventDefault();
+    let id = $('#id').val();
+    let url = id ? "<?php echo site_url('UserController/update'); ?>" : "<?php echo site_url('UserController/insert'); ?>";
+    $.post(url, $(this).serialize(), function(response){
+      let res = JSON.parse(response);
+      if(res.status == 'success'){
+        $('#userModal').modal('hide');
+        table.ajax.reload();
+      }
+    });
+  });
+});
+
+function resetForm(){
+  $('#formUser')[0].reset();
+  $('#id').val('');
+}
+
+function editUser(id, nama, email){
+  $('#id').val(id);
+  $('#nama').val(nama);
+  $('#email').val(email);
+  $('#userModal').modal('show');
+}
+
+function deleteUser(id){
+  if(confirm("Yakin hapus data?")){
+    $.post("<?php echo site_url('UserController/delete'); ?>", {id:id}, function(response){
+      let res = JSON.parse(response);
+      if(res.status == 'success'){
+        $('#userTable').DataTable().ajax.reload();
+      }
+    });
+  }
+}
+</script>
+```
+
+---
+
+### 2. Controller (UserController.php)
+```php
+class UserController extends CI_Controller {
+    public function get_users_server(){
+        $request = $_POST;
+        $columns = ['id','nama','email'];
+
+        $totalData = $this->db->count_all('users');
+
+        if(!empty($request['search']['value'])){
+            $this->db->like('nama', $request['search']['value']);
+            $this->db->or_like('email', $request['search']['value']);
+        }
+
+        $totalFiltered = $this->db->count_all_results('users', FALSE);
+
+        if(isset($request['order'])){
+            $colIndex = $request['order'][0]['column'];
+            $colName = $columns[$colIndex];
+            $dir = $request['order'][0]['dir'];
+            $this->db->order_by($colName, $dir);
+        }
+
+        $this->db->limit($request['length'], $request['start']);
+        $query = $this->db->get();
+
+        $data = [];
+        foreach($query->result() as $row){
+            $data[] = [
+                "id" => $row->id,
+                "nama" => $row->nama,
+                "email" => $row->email
+            ];
+        }
+
+        $json_data = [
+            "draw" => intval($request['draw']),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        ];
+
+        echo json_encode($json_data);
+    }
+
+    public function insert(){
+        $data = [
+            'nama' => $this->input->post('nama'),
+            'email' => $this->input->post('email')
+        ];
+        $this->db->insert('users', $data);
+        echo json_encode(['status' => 'success']);
+    }
+
+    public function update(){
+        $id = $this->input->post('id');
+        $data = [
+            'nama' => $this->input->post('nama'),
+            'email' => $this->input->post('email')
+        ];
+        $this->db->where('id', $id)->update('users', $data);
+        echo json_encode(['status' => 'success']);
+    }
+
+    public function delete(){
+        $id = $this->input->post('id');
+        $this->db->where('id', $id)->delete('users');
+        echo json_encode(['status' => 'success']);
+    }
+}
+```
+
+---
+
+## 🚀 Hasil
+- Tabel DataTables dengan **search, sort, pagination**.
+- CRUD dilakukan lewat **modal form**.
+- Semua operasi berjalan via AJAX tanpa reload halaman.
+- Tampilan lebih profesional dengan Bootstrap.
+
+---
+
+Kalau kamu mau, saya bisa tambahkan **validasi form + notifikasi (toast/alert)** agar user mendapat feedback lebih jelas saat input salah atau data berhasil disimpan. Mau saya buatkan juga?
