@@ -276,3 +276,229 @@ $(document).ready(function(){
 Dengan pola ini, kamu bisa membuat CRUD full AJAX di CodeIgniter 3 tanpa reload halaman.  
 
 Apakah kamu mau saya tambahkan **versi dengan DataTables** supaya tabel lebih interaktif (search, sort, pagination)?
+
+
+---------------------------------------------------------------------------------------------------------------------------
+
+Oke, mari kita tingkatkan CRUD AJAX di CodeIgniter 3 dengan **DataTables** supaya tabel lebih interaktif (search, sort, pagination otomatis).  
+
+---
+
+## 📂 Langkah Integrasi DataTables
+
+### 1. Tambahkan Library DataTables di View
+```html
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+```
+
+---
+
+### 2. View (user_view.php)
+```html
+<h3>Form User</h3>
+<form id="formUser">
+  <input type="hidden" name="id" id="id">
+  <input type="text" name="nama" id="nama" placeholder="Nama">
+  <input type="email" name="email" id="email" placeholder="Email">
+  <button type="submit">Simpan</button>
+</form>
+
+<h3>Data User</h3>
+<table id="userTable" class="display">
+  <thead>
+    <tr><th>ID</th><th>Nama</th><th>Email</th><th>Aksi</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script>
+$(document).ready(function(){
+  let table = $('#userTable').DataTable({
+    ajax: {
+      url: "<?php echo site_url('UserController/get_users'); ?>",
+      dataSrc: ''
+    },
+    columns: [
+      { data: 'id' },
+      { data: 'nama' },
+      { data: 'email' },
+      { data: null, render: function(data){
+          return `
+            <button onclick="editUser(${data.id}, '${data.nama}', '${data.email}')">Edit</button>
+            <button onclick="deleteUser(${data.id})">Delete</button>
+          `;
+        }
+      }
+    ]
+  });
+
+  $('#formUser').on('submit', function(e){
+    e.preventDefault();
+    let id = $('#id').val();
+    let url = id ? "<?php echo site_url('UserController/update'); ?>" : "<?php echo site_url('UserController/insert'); ?>";
+    $.post(url, $(this).serialize(), function(response){
+      let res = JSON.parse(response);
+      if(res.status == 'success'){
+        table.ajax.reload();
+        $('#formUser')[0].reset();
+        $('#id').val('');
+      }
+    });
+  });
+});
+
+function editUser(id, nama, email){
+  $('#id').val(id);
+  $('#nama').val(nama);
+  $('#email').val(email);
+}
+
+function deleteUser(id){
+  $.post("<?php echo site_url('UserController/delete'); ?>", {id:id}, function(response){
+    let res = JSON.parse(response);
+    if(res.status == 'success'){
+      $('#userTable').DataTable().ajax.reload();
+    }
+  });
+}
+</script>
+```
+
+---
+
+### 3. Controller (UserController.php)
+Tetap sama seperti sebelumnya, hanya pastikan `get_users()` mengembalikan JSON array:
+```php
+public function get_users(){
+    $users = $this->User_model->get_all();
+    echo json_encode($users);
+}
+```
+
+---
+
+## 🚀 Hasil
+- Tabel otomatis punya **search bar, pagination, dan sorting**.
+- Data di-refresh via AJAX tanpa reload halaman.
+- CRUD tetap berjalan dengan tombol edit/hapus.
+
+---
+
+Kalau mau lebih canggih, DataTables juga bisa dihubungkan dengan **server-side processing** (paging & filtering langsung di database, bukan di browser). Itu cocok kalau datanya ribuan row.  
+
+Mau saya tunjukkan juga contoh **server-side DataTables dengan CodeIgniter 3** untuk performa tinggi?
+
+
+Baik, mari kita buat versi **server-side DataTables di CodeIgniter 3**. Ini cocok kalau data user sangat banyak (ribuan row), sehingga proses **search, sort, dan pagination** dilakukan langsung di database, bukan di browser.  
+
+---
+
+## 📂 Langkah Server-side DataTables
+
+### 1. View (user_view.php)
+```html
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<table id="userTable" class="display">
+  <thead>
+    <tr><th>ID</th><th>Nama</th><th>Email</th><th>Aksi</th></tr>
+  </thead>
+</table>
+
+<script>
+$(document).ready(function(){
+  $('#userTable').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: {
+      url: "<?php echo site_url('UserController/get_users_server'); ?>",
+      type: "POST"
+    },
+    columns: [
+      { data: 'id' },
+      { data: 'nama' },
+      { data: 'email' },
+      { data: null, render: function(data){
+          return `
+            <button onclick="editUser(${data.id}, '${data.nama}', '${data.email}')">Edit</button>
+            <button onclick="deleteUser(${data.id})">Delete</button>
+          `;
+        }
+      }
+    ]
+  });
+});
+</script>
+```
+
+---
+
+### 2. Controller (UserController.php)
+```php
+class UserController extends CI_Controller {
+    public function get_users_server(){
+        $request = $_POST;
+        $columns = ['id','nama','email'];
+
+        // total records
+        $totalData = $this->db->count_all('users');
+
+        // search filter
+        if(!empty($request['search']['value'])){
+            $this->db->like('nama', $request['search']['value']);
+            $this->db->or_like('email', $request['search']['value']);
+        }
+
+        $totalFiltered = $this->db->count_all_results('users', FALSE);
+
+        // order & limit
+        if(isset($request['order'])){
+            $colIndex = $request['order'][0]['column'];
+            $colName = $columns[$colIndex];
+            $dir = $request['order'][0]['dir'];
+            $this->db->order_by($colName, $dir);
+        }
+
+        $this->db->limit($request['length'], $request['start']);
+        $query = $this->db->get();
+
+        $data = [];
+        foreach($query->result() as $row){
+            $data[] = [
+                "id" => $row->id,
+                "nama" => $row->nama,
+                "email" => $row->email
+            ];
+        }
+
+        $json_data = [
+            "draw" => intval($request['draw']),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        ];
+
+        echo json_encode($json_data);
+    }
+}
+```
+
+---
+
+### 3. Model (opsional)
+Jika ingin lebih rapi, logika query bisa dipindahkan ke model. Controller hanya memanggil model dan mengembalikan JSON.
+
+---
+
+## 🚀 Hasil
+- DataTables akan **memanggil server setiap kali user melakukan search, sort, atau pindah halaman**.
+- Database hanya mengirim data sesuai kebutuhan (misalnya 10 row per halaman).
+- Sangat efisien untuk dataset besar.
+
+---
+
+Kalau kamu mau, saya bisa tambahkan **versi dengan tombol CRUD (Create, Update, Delete) langsung di DataTables** menggunakan modal form agar lebih profesional. Mau saya buatkan juga?
