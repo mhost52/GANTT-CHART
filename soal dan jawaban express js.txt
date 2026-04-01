@@ -1,0 +1,90 @@
+Baik, berikut contoh **soal esai** untuk tes programmer Express.js, lengkap dengan poin jawaban yang bisa dijadikan acuan penilaian:
+
+---
+
+### Soal Esai Express.js
+
+1. **Jelaskan konsep middleware dalam Express.js dan berikan contoh penggunaannya dalam aplikasi web.**  
+   *Jawaban acuan:* Middleware adalah fungsi yang dieksekusi sebelum request mencapai route handler. Digunakan untuk logging, autentikasi, 
+   parsing body, dll. Contoh:  
+   ```js
+   app.use((req, res, next) => {
+     console.log(`${req.method} ${req.url}`);
+     next();
+   });
+   ```
+
+2. **Apa perbedaan antara `req.params`, `req.query`, dan `req.body` dalam Express.js? Berikan contoh kasus penggunaan masing-masing.**  
+   *Jawaban acuan:*  
+   - `req.params`: parameter dari path URL (misalnya `/users/:id`).  
+   - `req.query`: parameter dari query string (misalnya `/search?keyword=abc`).  
+   - `req.body`: data dari body request (misalnya form POST atau JSON).  
+
+3. **Bagaimana cara mengatur routing modular di Express.js agar aplikasi tetap terstruktur?**  
+   *Jawaban acuan:* Dengan menggunakan `express.Router()`. Contoh:  
+   ```js
+   const userRouter = express.Router();
+   userRouter.get('/:id', (req, res) => { res.send('User detail'); });
+   app.use('/users', userRouter);
+   ```
+
+4. **Jelaskan bagaimana cara menghubungkan Express.js dengan database (misalnya PostgreSQL atau MongoDB).**  
+   *Jawaban acuan:* Biasanya menggunakan library/ORM seperti Sequelize, Mongoose, atau `pg`. Express.js sendiri tidak menyediakan koneksi database, tetapi dapat mengintegrasikan modul eksternal.  
+
+5. **Bagaimana cara menangani error secara global di Express.js?**  
+   *Jawaban acuan:* Dengan middleware khusus error handling:  
+   ```js
+   app.use((err, req, res, next) => {
+     console.error(err.stack);
+     res.status(500).send('Something broke!');
+   });
+   ```
+
+---
+
+Apakah kamu ingin saya buatkan **rubrik penilaian** (misalnya poin 1–5 per soal) agar bisa langsung dipakai untuk evaluasi kandidat?
+
+
+Baik, berikut contoh **soal esai beserta jawaban acuan** yang bisa digunakan untuk menguji kemampuan dasar programmer React.js:
+
+---
+
+### Soal Esai React.js (Basic)
+
+1. **Jelaskan apa itu React.js dan mengapa digunakan dalam pengembangan frontend.**  
+   *Jawaban acuan:* React.js adalah library JavaScript untuk membangun antarmuka pengguna berbasis komponen. Digunakan karena memudahkan pembuatan UI yang dinamis, reusable, dan efisien dengan Virtual DOM.
+
+2. **Apa perbedaan antara *class component* dan *functional component* dalam React.js?**  
+   *Jawaban acuan:*  
+   - *Class component*: ditulis dengan `class`, mendukung lifecycle methods (`componentDidMount`, dll.), dan menggunakan `this.state`.  
+   - *Functional component*: ditulis sebagai fungsi, lebih sederhana, dan menggunakan *React Hooks* (`useState`, `useEffect`) untuk state dan lifecycle.  
+
+3. **Jelaskan konsep *props* dan *state* dalam React.js. Berikan contoh penggunaannya.**  
+   *Jawaban acuan:*  
+   - *Props*: data yang dikirim dari parent ke child component, bersifat immutable.  
+   - *State*: data internal yang dikelola oleh component, bisa berubah dengan `setState` atau `useState`.  
+   Contoh:  
+   ```jsx
+   function Greeting({ name }) {
+     const [count, setCount] = React.useState(0);
+     return <div>Hello {name}, clicked {count} times</div>;
+   }
+   ```
+
+4. **Apa kegunaan dari React Hooks seperti `useEffect`? Berikan contoh sederhana.**  
+   *Jawaban acuan:* `useEffect` digunakan untuk efek samping seperti fetch data, manipulasi DOM, atau subscription. Contoh:  
+   ```jsx
+   useEffect(() => {
+     document.title = "Hello World";
+   }, []);
+   ```
+
+5. **Bagaimana cara melakukan *conditional rendering* di React.js?**  
+   *Jawaban acuan:* Dengan operator ternary atau logical AND. Contoh:  
+   ```jsx
+   {isLoggedIn ? <Dashboard /> : <Login />}
+   ```
+
+---
+
+Apakah kamu ingin saya buatkan versi **pilihan ganda** juga, supaya bisa dipakai sebagai tes cepat untuk screening kandidat?
